@@ -2,7 +2,6 @@ package com.app.gighub.models;
 
 import jakarta.persistence.*;
 import java.util.Date;
-import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity

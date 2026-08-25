@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:include="frontend/partials/head(title=${job.title})">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" 
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div th:replace="frontend/partials/menu"></div>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                
+                <h1 th:text="#{job.view.view_bids}" class="mb-3">View bids</h1>
+                
+                <h2 th:text="${job.title}"></h2>
+                
+                <p>
+                    <a th:href="@{'/job/view/' + ${job.id}}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-briefcase"></i> 
+                        <span th:text="#{job.view.bids.view_job}">View Job</span>
+                    </a>
+                </p>
+                
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th th:text="#{job.view.bids.table.user}">User</th>
+                            <th th:text="#{price}">Price</th>
+                            <th th:text="#{deadline}">Deadline</th>
+                            <th th:text="#{job.view.bids.table.proposal}">Proposal</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="bid : ${bids}">
+                            <td>
+                                <a th:href="@{'/profile/' + ${bid.user.id}}" 
+                                   th:text="${bid.user != null ? bid.user.name : 'Unknown User'}"></a>
+                            </td>
+                            <td th:text="${bid.price != null ? #numbers.formatDecimal(bid.price, 0, 'POINT', 2, 'COMMA') : 'N/A'}"></td>
+                            <td th:text="${bid.deadline != null ? bid.deadline : 'Not specified'}"></td>
+                            <td th:text="${bid.proposal != null ? bid.proposal : 'No proposal provided'}"></td>
+                            <td>
+                                <a class="btn btn-success btn-sm" 
+                                   th:href="@{'/message/job_room/' + ${bid.job.id} + '/' + ${bid.user.id}}">
+                                    <i class="fas fa-envelope"></i> 
+                                    <span th:text="#{job.view.bids.table.message}">Message</span>
+                                </a>
+                                
+                                <a onclick="return confirm('Are you sure?');"
+                                   th:if="${bid.accepted} == 0"
+                                   class="btn btn-primary btn-sm"
+                                   th:href="@{'/bid/accept/' + ${bid.id}}">
+                                    <i class="fas fa-check"></i> 
+                                    <span th:text="#{job.view.bids.table.hire}">Hire</span>
+                                </a>
+                                
+                                <span th:if="${bid.accepted} == 1" class="text-success fw-bold">
+                                    <i class="fas fa-check-circle"></i> 
+                                    <span th:text="#{job.view.bids.table.accepted}">Accepted</span>
+                                </span>
+                            </td>
+                        </tr>
+                        
+                        <tr th:if="${#lists.isEmpty(bids)}">
+                            <td colspan="5" class="text-center text-muted">No bids available</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</body>
+</html>

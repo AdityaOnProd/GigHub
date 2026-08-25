@@ -1,11 +1,12 @@
-package net.vatri.freelanceplatform.validators;
+package com.app.gighub.validators;
 
-import net.vatri.freelanceplatform.models.User;
-import net.vatri.freelanceplatform.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+
+import com.app.gighub.models.User;
+import com.app.gighub.repositories.UserRepository;
 
 public class UserValidator implements Validator {
 
